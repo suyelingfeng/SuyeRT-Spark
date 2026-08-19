@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+    <view name="screen_sensors_root" width="100%" height="100%">
+        <style name="spark_screen"/>
+        <spark_header x="12" y="7" title="SENSORS" accent="#spark_sensor"/>
+        <lv_obj x="12" y="43" width="216" height="142">
+            <style name="spark_panel_style"/>
+            <spark_status_row x="0" y="0" label="Temperature" value_subject="temperature_text" accent="#spark_sensor"/>
+            <spark_status_row x="0" y="22" label="Humidity" value_subject="humidity_text" accent="#spark_sensor"/>
+            <spark_status_row x="0" y="44" label="Light" value_subject="light_text" accent="#spark_sensor"/>
+            <spark_status_row x="0" y="66" label="Proximity" value_subject="proximity_text" accent="#spark_sensor"/>
+            <spark_status_row x="0" y="88" label="Accel mg" value_subject="acceleration_text" accent="#spark_sensor"/>
+            <spark_status_row x="0" y="110" label="Gyro .1dps" value_subject="gyroscope_text" accent="#spark_sensor"/>
+        </lv_obj>
+        <spark_action_button name="sensor_refresh_button" x="68" y="194"
+                             text="REFRESH" accent="#spark_sensor" action_value="1"/>
+        <lv_label text="AHT21 / AP3216C / ICM20608" align="bottom_mid" y="-7"
+                  style_text_color="#spark_muted"/>
+    </view>
+</screen>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+    <view name="screen_home_root" width="100%" height="100%">
+        <style name="spark_screen"/>
+        <lv_label text="RT-SPARK" x="14" y="12" style_text_color="#spark_text"/>
+        <lv_label text="SUYE" align="top_right" x="-14" y="12" style_text_color="#spark_suye"/>
+        <lv_obj x="14" y="38" width="212" height="1"
+                style_bg_color="#spark_border" style_bg_opa="100%" style_border_width="0"/>
+        <spark_menu_card name="menu_sensors" x="18" y="43" index="01"
+                         title="SENSORS" hint="Live" accent="#spark_sensor"
+                         target_screen="screen_sensors"/>
+        <spark_menu_card name="menu_environment" x="126" y="43" index="02"
+                         title="TEMP/RH" hint="Kalman" accent="#spark_environment"
+                         target_screen="screen_environment"/>
+        <spark_menu_card name="menu_attitude" x="18" y="95" index="03"
+                         title="ANGLE" hint="Fusion" accent="#spark_attitude"
+                         target_screen="screen_attitude"/>
+        <spark_menu_card name="menu_storage" x="126" y="95" index="04"
+                         title="STORAGE" hint="Media" accent="#spark_storage"
+                         target_screen="screen_storage"/>
+        <spark_menu_card name="menu_network" x="18" y="147" index="05"
+                         title="NETWORK" hint="RW007" accent="#spark_network"
+                         target_screen="screen_network"/>
+        <spark_menu_card name="menu_system" x="126" y="147" index="06"
+                         title="SYSTEM" hint="Runtime" accent="#spark_system"
+                         target_screen="screen_system"/>
+        <lv_label text="UP/DOWN select  RIGHT enter" align="bottom_mid" y="-5"
+                  style_text_color="#spark_muted"/>
+    </view>
+</screen>

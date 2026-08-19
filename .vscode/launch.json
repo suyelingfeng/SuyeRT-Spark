@@ -1,0 +1,40 @@
+{
+    // 使用 IntelliSense 了解相关属性。
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "stlinkgdbtarget",
+            "request": "launch",
+            "name": "STM32Cube: Launch ST-Link GDB Server",
+            "origin": "snippet",
+            "cwd": "${workspaceFolder}",
+            "preBuild": "${command:st-stm32-ide-debug-launch.build}",
+            "runEntry": "main",
+            "imagesAndSymbols": [
+                {
+                    "imageFileName": "${command:st-stm32-ide-debug-launch.get-projects-binary-from-context1}"
+                }
+            ]
+        },
+        {
+            // 带预设断点的调试配置：启动时自动 source .vscode/breakpoints.gdb，
+            // 加载故障兜底/启动路径/初始化失败分支共 15 个断点。
+            // 依赖：marus25.cortex-debug 扩展 + ST-LINK GDB Server（STM32CubeCLT 自带）。
+            // 若只用上面的 ST 官方配置，可在调试控制台手动 source 该 gdb 文件，效果相同。
+            "type": "cortex-debug",
+            "request": "launch",
+            "name": "STM32 Cortex-Debug (带预设断点)",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug/STM32F407_RTT.elf",
+            "servertype": "stlink",
+            "device": "STM32F407ZGT6",
+            "interface": "swd",
+            "runToEntryPoint": "main",
+            "preLaunchCommands": [
+                "source ${workspaceFolder}/.vscode/breakpoints.gdb"
+            ]
+        }
+    ]
+}

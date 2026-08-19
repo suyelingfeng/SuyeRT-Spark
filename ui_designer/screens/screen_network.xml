@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+    <view name="screen_network_root" width="100%" height="100%">
+        <style name="spark_screen"/>
+        <spark_header x="12" y="7" title="NETWORK" accent="#spark_network"/>
+        <lv_obj x="12" y="43" width="216" height="132">
+            <style name="spark_panel_style"/>
+            <spark_status_row x="0" y="3" label="Module" value_subject="network_module_text" accent="#spark_network"/>
+            <spark_status_row x="0" y="29" label="State" value_subject="rw007_state_text" accent="#spark_network"/>
+            <spark_status_row x="0" y="55" label="BUSY pin" value_subject="rw007_busy_text" accent="#spark_network"/>
+            <spark_status_row x="0" y="81" label="IPv4" value_subject="network_ip_text" accent="#spark_text"/>
+        </lv_obj>
+        <spark_action_button name="network_reset_button" x="68" y="188"
+                             text="RESET RW007" accent="#spark_network" action_value="3"/>
+        <lv_label text="Hardware state / reset control" align="bottom_mid" y="-7"
+                  style_text_color="#spark_muted"/>
+    </view>
+</screen>

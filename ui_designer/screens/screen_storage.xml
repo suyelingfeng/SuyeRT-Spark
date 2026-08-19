@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+    <view name="screen_storage_root" width="100%" height="100%">
+        <style name="spark_screen"/>
+        <spark_header x="12" y="7" title="STORAGE" accent="#spark_storage"/>
+        <lv_obj x="12" y="43" width="216" height="132">
+            <style name="spark_panel_style"/>
+            <spark_status_row x="0" y="3" label="SPI Flash" value_subject="flash_model_text" accent="#spark_storage"/>
+            <spark_status_row x="0" y="29" label="Capacity" value_subject="flash_capacity_text" accent="#spark_storage"/>
+            <spark_status_row x="0" y="55" label="SD Card" value_subject="sd_state_text" accent="#spark_storage"/>
+            <spark_status_row x="0" y="81" label="Interface" value_subject="storage_interface_text" accent="#spark_text"/>
+        </lv_obj>
+        <spark_action_button name="storage_rescan_button" x="68" y="188"
+                             text="RESCAN" accent="#spark_storage" action_value="2"/>
+        <lv_label text="Flash ID and SD detect are live" align="bottom_mid" y="-7"
+                  style_text_color="#spark_muted"/>
+    </view>
+</screen>

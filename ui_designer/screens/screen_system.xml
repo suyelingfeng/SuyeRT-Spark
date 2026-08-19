@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+    <view name="screen_system_root" width="100%" height="100%">
+        <style name="spark_screen"/>
+        <spark_header x="12" y="7" title="SYSTEM" accent="#spark_system"/>
+        <lv_obj x="12" y="43" width="216" height="142">
+            <style name="spark_panel_style"/>
+            <spark_status_row x="0" y="0" label="CPU" value_subject="cpu_text" accent="#spark_system"/>
+            <spark_status_row x="0" y="24" label="Uptime" value_subject="uptime_text" accent="#spark_system"/>
+            <spark_status_row x="0" y="48" label="Threads" value_subject="thread_count_text" accent="#spark_system"/>
+            <spark_status_row x="0" y="72" label="Heap" value_subject="heap_text" accent="#spark_system"/>
+            <spark_status_row x="0" y="96" label="Console" value_subject="console_text" accent="#spark_text"/>
+        </lv_obj>
+        <lv_label bind_text="firmware_text" align="top_mid" y="197" style_text_color="#spark_muted"/>
+        <lv_label text="suye&gt; ps | free | ui_status" align="bottom_mid" y="-8"
+                  style_text_color="#spark_suye"/>
+    </view>
+</screen>

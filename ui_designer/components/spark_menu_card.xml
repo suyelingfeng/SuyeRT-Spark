@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+    <api>
+        <prop name="index" type="string" default="01"/>
+        <prop name="title" type="string" default="ITEM"/>
+        <prop name="hint" type="string" default="Open"/>
+        <prop name="accent" type="color" default="0xA7F3C1"/>
+        <prop name="target_screen" type="string" default="screen_home"/>
+    </api>
+    <!-- 实体方向键通过 LVGL group 聚焦此 button；不使用缩放动画。 -->
+    <view extends="lv_button" width="96" height="46"
+          style_bg_color="#spark_panel_alt" style_bg_opa="100%"
+          style_border_color="#spark_border" style_border_width="1"
+          style_border_color-focused="$accent" style_border_width-focused="3"
+          style_radius="12" style_pad_all="8">
+        <!-- RIGHT/ENTER 产生 clicked；新建目标页并释放旧页，节省 MCU Heap。 -->
+        <screen_create_event trigger="clicked" screen="$target_screen"/>
+        <lv_label name="card_index" text="$index" align="left_mid"
+                  style_text_color="$accent"/>
+        <lv_label name="card_title" text="$title" align="right_mid"
+                  style_text_color="#spark_text"/>
+    </view>
+</component>

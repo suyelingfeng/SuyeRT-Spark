@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+    <api>
+        <prop name="text" type="string" default="ACTION"/>
+        <prop name="accent" type="color" default="0xA7F3C1"/>
+        <prop name="action_value" type="int" default="0"/>
+    </api>
+    <view extends="lv_button" width="104" height="34"
+          style_bg_color="#spark_panel_alt" style_bg_opa="100%"
+          style_border_color="$accent" style_border_width="1"
+          style_border_width-focused="3" style_radius="10">
+        <!-- 只提交请求，不在 LVGL 事件回调中直接访问 I2C/SPI。 -->
+        <subject_set_int_event trigger="clicked" subject="action_request"
+                               value="$action_value"/>
+        <lv_label name="button_label" text="$text" align="center"
+                  style_text_color="$accent"/>
+    </view>
+</component>

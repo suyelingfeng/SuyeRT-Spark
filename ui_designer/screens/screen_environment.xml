@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+    <view name="screen_environment_root" width="100%" height="100%">
+        <style name="spark_screen"/>
+        <spark_header x="12" y="7" title="TEMP / RH" accent="#spark_environment"/>
+        <lv_obj x="12" y="43" width="216" height="142">
+            <style name="spark_panel_style"/>
+            <spark_status_row x="0" y="0" label="AHT21" value_subject="environment_state_text" accent="#spark_environment"/>
+            <spark_status_row x="0" y="28" label="Temp raw" value_subject="temperature_text" accent="#spark_text"/>
+            <spark_status_row x="0" y="52" label="Temp Kalman" value_subject="temperature_kalman_text" accent="#spark_environment"/>
+            <spark_status_row x="0" y="80" label="RH raw" value_subject="humidity_text" accent="#spark_text"/>
+            <spark_status_row x="0" y="104" label="RH Kalman" value_subject="humidity_kalman_text" accent="#spark_environment"/>
+        </lv_obj>
+        <spark_action_button name="environment_refresh_button" x="68" y="194"
+                             text="REFRESH" accent="#spark_environment" action_value="1"/>
+        <lv_label text="Scalar Kalman: raw vs filtered" align="bottom_mid" y="-7"
+                  style_text_color="#spark_muted"/>
+    </view>
+</screen>

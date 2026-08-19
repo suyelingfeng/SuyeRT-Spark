@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+    <view name="screen_boot_root" width="100%" height="100%">
+        <style name="spark_screen"/>
+        <lv_obj name="rt_badge" x="86" y="30" width="68" height="68"
+                style_bg_color="#spark_suye" style_bg_opa="100%"
+                style_border_width="0" style_radius="18">
+            <lv_label text="RT" align="center" style_text_color="#spark_bg"/>
+        </lv_obj>
+        <lv_label text="RT-THREAD" align="top_mid" y="111" style_text_color="#spark_text"/>
+        <lv_label text="SUYE" align="top_mid" y="137" style_text_color="#spark_suye"/>
+        <lv_label text="STM32F407 / 168 MHz" align="top_mid" y="164" style_text_color="#spark_muted"/>
+        <lv_bar name="boot_progress_bar" x="38" y="197" width="164" height="7"
+                min_value="0" max_value="100" bind_value="boot_progress"
+                style_bg_color="#spark_panel_alt" style_bg_opa="100%"
+                style_bg_color-indicator="#spark_suye" style_radius="4"/>
+        <lv_label text="Starting system..." align="top_mid" y="214" style_text_color="#spark_muted"/>
+    </view>
+</screen>

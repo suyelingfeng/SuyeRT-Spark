@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="spark_ui" lvgl_version="9.5.0" theme="simple">
+    <!-- RT-Spark 板载 ST7789V3，RGB565，逻辑分辨率 240 x 240。 -->
+    <targets>
+        <target name="rt_spark_240x240">
+            <display width="240" height="240"/>
+            <memory name="internal_flash" size="1MB"/>
+            <memory name="sram" size="128kB"/>
+            <memory name="ccm_ram" size="64kB"/>
+        </target>
+    </targets>
+</project>

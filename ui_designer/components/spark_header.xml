@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+    <api>
+        <prop name="title" type="string" default="PAGE"/>
+        <prop name="accent" type="color" default="0xA7F3C1"/>
+        <prop name="back_text" type="string" default="&lt; LEFT"/>
+    </api>
+    <view extends="lv_obj" width="216" height="32"
+          style_bg_opa="0%" style_border_width="0" style_pad_all="0">
+        <lv_label name="back_hint" text="$back_text" align="left_mid"
+                  style_text_color="#spark_muted"/>
+        <lv_label name="page_title" text="$title" align="right_mid"
+                  style_text_color="$accent"/>
+    </view>
+</component>

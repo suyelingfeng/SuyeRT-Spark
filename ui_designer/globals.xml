@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<globals>
+    <!-- 颜色集中定义；可聚焦控件不使用 transform_scale。 -->
+    <consts>
+        <color name="spark_bg" value="0x0D1729"/>
+        <color name="spark_panel" value="0x17243A"/>
+        <color name="spark_panel_alt" value="0x1B2942"/>
+        <color name="spark_border" value="0x30435F"/>
+        <color name="spark_text" value="0xF4F7FC"/>
+        <color name="spark_muted" value="0x8293AE"/>
+        <color name="spark_suye" value="0xA7F3C1"/>
+        <color name="spark_sensor" value="0x26C6DA"/>
+        <color name="spark_environment" value="0x29B6F6"/>
+        <color name="spark_attitude" value="0xEC407A"/>
+        <color name="spark_storage" value="0xFFB74D"/>
+        <color name="spark_network" value="0x66BB6A"/>
+        <color name="spark_system" value="0xAB7BEF"/>
+        <color name="spark_danger" value="0xEF5350"/>
+    </consts>
+
+    <!-- 编辑器预览数据；与 app_tasks 快照接口的映射见 README.md。 -->
+    <subjects>
+        <int name="boot_progress" value="68" min_value="0" max_value="100"/>
+        <!-- 0=空闲，1=传感器刷新，2=存储重扫，3=RW007 复位，4=姿态归零。 -->
+        <int name="action_request" value="0" min_value="0" max_value="4"/>
+        <string name="temperature_text" value="30.1 C"/>
+        <string name="humidity_text" value="65.7 %RH"/>
+        <string name="temperature_kalman_text" value="30.0 C"/>
+        <string name="humidity_kalman_text" value="65.5 %RH"/>
+        <string name="environment_state_text" value="OK / FILTER READY"/>
+        <string name="light_text" value="1.0 lux"/>
+        <string name="proximity_text" value="3"/>
+        <string name="acceleration_text" value="-383/-123/1000"/>
+        <string name="gyroscope_text" value="7/4/0"/>
+        <string name="attitude_state_text" value="READY / STILL"/>
+        <string name="roll_text" value="+0.0 deg"/>
+        <string name="pitch_text" value="+0.0 deg"/>
+        <string name="yaw_text" value="+0.0 deg*"/>
+        <string name="quaternion_text" value="10000 / 0 / 0 / 0"/>
+        <string name="gyro_bias_text" value="0 / 0 / 0 mdps"/>
+        <string name="imu_temperature_text" value="31.2 C"/>
+        <string name="flash_model_text" value="W25Q64"/>
+        <string name="flash_capacity_text" value="8192 KiB"/>
+        <string name="sd_state_text" value="INSERTED"/>
+        <string name="storage_interface_text" value="SPI1 / SDIO"/>
+        <string name="network_module_text" value="RW007"/>
+        <string name="rw007_state_text" value="READY"/>
+        <string name="rw007_busy_text" value="HIGH"/>
+        <string name="network_ip_text" value="--.--.--.--"/>
+        <string name="uptime_text" value="0 s"/>
+        <string name="thread_count_text" value="4"/>
+        <string name="heap_text" value="5160 / 68584 B"/>
+        <string name="cpu_text" value="STM32F407 168M"/>
+        <string name="console_text" value="USART1 115200"/>
+        <string name="firmware_text" value="RTT 5.2.2 / LVGL 9.5"/>
+    </subjects>
+
+    <styles>
+        <style name="spark_screen" bg_color="#spark_bg" bg_opa="100%" border_width="0" pad_all="0"/>
+        <style name="spark_panel_style" bg_color="#spark_panel" bg_opa="100%" border_color="#spark_border" border_width="1" radius="12" pad_all="10"/>
+        <style name="spark_card_style" bg_color="#spark_panel_alt" bg_opa="100%" border_color="#spark_border" border_width="1" radius="12" pad_all="8"/>
+        <style name="spark_title" text_color="#spark_text"/>
+        <style name="spark_body" text_color="#spark_text"/>
+        <style name="spark_caption" text_color="#spark_muted"/>
+    </styles>
+</globals>

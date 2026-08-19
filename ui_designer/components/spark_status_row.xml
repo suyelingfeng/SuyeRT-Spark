@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+    <api>
+        <prop name="label" type="string" default="Label"/>
+        <!-- subject 从 globals.xml 传入，导出后标签可随固件数据自动刷新。 -->
+        <prop name="value_subject" type="subject"/>
+        <prop name="accent" type="color" default="0xF4F7FC"/>
+    </api>
+    <view extends="lv_obj" width="194" height="22"
+          style_bg_opa="0%" style_border_width="0" style_pad_all="0">
+        <lv_label name="row_label" text="$label" align="left_mid"
+                  style_text_color="#spark_muted"/>
+        <lv_label name="row_value" bind_text="$value_subject" align="right_mid"
+                  style_text_color="$accent"/>
+    </view>
+</component>

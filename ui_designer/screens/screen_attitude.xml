@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen>
+    <view name="screen_attitude_root" width="100%" height="100%">
+        <style name="spark_screen"/>
+        <spark_header x="12" y="7" title="ATTITUDE" accent="#spark_attitude"/>
+        <lv_obj x="12" y="43" width="216" height="142">
+            <style name="spark_panel_style"/>
+            <spark_status_row x="0" y="0" label="State" value_subject="attitude_state_text" accent="#spark_attitude"/>
+            <spark_status_row x="0" y="22" label="Roll" value_subject="roll_text" accent="#spark_attitude"/>
+            <spark_status_row x="0" y="44" label="Pitch" value_subject="pitch_text" accent="#spark_attitude"/>
+            <spark_status_row x="0" y="66" label="Yaw relative" value_subject="yaw_text" accent="#spark_attitude"/>
+            <spark_status_row x="0" y="88" label="Q w/x/y/z" value_subject="quaternion_text" accent="#spark_text"/>
+            <spark_status_row x="0" y="110" label="Gyro bias" value_subject="gyro_bias_text" accent="#spark_text"/>
+        </lv_obj>
+        <spark_action_button name="attitude_zero_button" x="68" y="194"
+                             text="SET ZERO" accent="#spark_attitude" action_value="4"/>
+        <lv_label text="Quaternion + Mahony + Kalman" align="bottom_mid" y="-7"
+                  style_text_color="#spark_muted"/>
+    </view>
+</screen>
