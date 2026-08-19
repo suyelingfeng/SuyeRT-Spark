@@ -24,6 +24,9 @@ set(CMAKE_PROJECT_NAME STM32F407_RTT)
 # Enable compile command to ease indexing with e.g. clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
+# Set toolchain file for ARM Cortex-M4
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/gcc-arm-none-eabi.cmake)
+
 # Core project settings
 project(${CMAKE_PROJECT_NAME})
 message("Build type: " ${CMAKE_BUILD_TYPE})
@@ -92,10 +95,13 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/services/board_service.c
     BSP/algorithms/sensor_fusion.c
     BSP/drivers/bus/soft_i2c.c
-    BSP/drivers/bus/spi2_board.c
+    BSP/drivers/bus/spi_driver.c
+    BSP/drivers/bus/spi2_adapter.c
     BSP/drivers/sensors/aht21.c
     BSP/drivers/sensors/ap3216c.c
     BSP/drivers/sensors/icm20608.c
+    BSP/drivers/devices/w25q_device.c
+    BSP/drivers/devices/rw007_device.c
     BSP/drivers/storage/board_storage.c
     BSP/drivers/wireless/rw007_hw.c
     BSP/rt_hw_console.c
@@ -128,6 +134,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/services
     BSP/algorithms
     BSP/drivers/bus
+    BSP/drivers/devices
     BSP/drivers/sensors
     BSP/drivers/storage
     BSP/drivers/wireless

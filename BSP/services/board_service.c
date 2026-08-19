@@ -7,7 +7,9 @@
  * - 鏈枃浠跺喅瀹氶噰鏍峰懆鏈熷拰鍚勬ā鍧楃殑璋冪敤椤哄簭锛? * - RT-Thread 绾跨▼鍒涘缓銆佸叡浜暟鎹繚鎶ゅ拰娑堟伅鎻愪氦鍏ㄩ儴鍦?app_tasks.c銆? */
 #include "board_service.h"
 #include "soft_i2c.h"
-#include "spi2_board.h"
+#include "spi_driver.h"
+#include "spi_config.h"
+#include "spi2_adapter.h"
 #include "aht21.h"
 #include "ap3216c.h"
 #include "icm20608.h"
@@ -210,7 +212,8 @@ void board_service_init(board_service_snapshot_t *snapshot)
     soft_i2c_timebase_init();
     soft_i2c_bus_init(&aht_bus);
     soft_i2c_bus_init(&sensor_bus);
-    spi2_board_init();
+    spi_driver_init();
+    spi2_adapter_init();
     scalar_kalman_init(&temperature_filter, KALMAN_TEMPERATURE_Q, KALMAN_TEMPERATURE_R);
     scalar_kalman_init(&humidity_filter, KALMAN_HUMIDITY_Q, KALMAN_HUMIDITY_R);
     attitude_filter_init(&orientation_filter);
