@@ -29,32 +29,37 @@ extern "C" {
  * Set to 18, slightly higher than board thread(19), to ensure keypad input
  * receives timely UI response.
  */
-#define RT_THREAD_GUI_PRIORITY       18U
+#define RT_THREAD_GUI_PRIORITY                18U
+#define RT_THREAD_RT_THREAD_GUI_PRIORITY      18U
 
 /**
  * @brief Board service thread priority.
  * Set to 19, lower than GUI(18), higher than FinSH default(20).
  */
-#define RT_THREAD_BOARD_PRIORITY     19U
+#define RT_THREAD_BOARD_PRIORITY              19U
+#define RT_THREAD_RT_THREAD_BOARD_PRIORITY    19U
 
 /**
  * @brief Application thread time slice (milliseconds).
  * GUI and board threads share the same time slice for fair switching
  * when preempted by higher priority threads.
  */
-#define RT_THREAD_APP_TIME_SLICE     10U
+#define RT_THREAD_APP_TIME_SLICE              10U
+#define RT_THREAD_RT_THREAD_APP_TIME_SLICE    10U
 
 /**
  * @brief GUI thread stack size (bytes).
  * Set to 6144, twice that of board thread, because LVGL draw call chains are deeper.
  */
-#define RT_THREAD_GUI_STACK_SIZE     6144U
+#define RT_THREAD_GUI_STACK_SIZE              6144U
+#define RT_THREAD_RT_THREAD_GUI_STACK_SIZE    6144U
 
 /**
  * @brief Board service thread stack size (bytes).
  * Set to 3072, sufficient for driver calls, Kalman filtering, and quaternion math.
  */
-#define RT_THREAD_BOARD_STACK_SIZE   3072U
+#define RT_THREAD_BOARD_STACK_SIZE            3072U
+#define RT_THREAD_RT_THREAD_BOARD_STACK_SIZE  3072U
 
 /* ============================================================================
  * Board-Level Service Sampling Periods

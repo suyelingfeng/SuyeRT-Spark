@@ -15,7 +15,8 @@
 #include "rw007_hw.h"
 #include "sensor_fusion.h"
 #include <rtthread.h>
-#include <string.h>`n#include "config.h"
+#include <string.h>
+#include "config.h"
 
 /* 20 ms 蹇懆鏈熶繚璇佸Э鎬佺Н鍒嗘闀?dt 瓒冲灏忥紱500 ms 鎱㈠懆鏈熷彧鐢ㄤ簬鍏夋劅/瀛樺偍鎺㈡祴绛変綆棰戣澶囥€?*/
 

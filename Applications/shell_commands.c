@@ -107,7 +107,7 @@ static int cmd_sensor_status(int argc, char **argv)
                s.gyro_dps_x10[0], s.gyro_dps_x10[1], s.gyro_dps_x10[2]);
     return 0;
 }
-MSH_CMD_EXPORT_ALIAS(cmd_sensor_status, sensor_status, read all sensors: AHT21 temp/humidity, AP3216C light/proximity, ICM20608 accel/gyro);
+MSH_CMD_EXPORT_ALIAS(cmd_sensor_status, sensor_status, "read all sensors: AHT21 temp/humidity, AP3216C light/proximity, ICM20608 accel/gyro");
 
 static int cmd_environment_status(int argc, char **argv)
 {

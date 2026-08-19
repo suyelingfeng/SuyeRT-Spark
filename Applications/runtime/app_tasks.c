@@ -10,7 +10,8 @@
 #include "lv_port_indev.h"
 #include "ui_navigation.h"
 #include <shell.h>
-#include <rtthread.h>`n#include "config.h"
+#include <rtthread.h>
+#include "config.h"
 
 /* RT-Thread 涓紭鍏堢骇鏁板瓧瓒婂皬瓒婇珮锛欸UI(18) 鐣ラ珮浜?board(19)锛孎inSH 榛樿 20 鏈€浣庯紝
  * 淇濊瘉鎸夐敭杈撳叆鑳藉強鏃跺緱鍒扮晫闈㈠搷搴斻€備袱绾跨▼鏃堕棿鐗囩浉鍚岋紱GUI 鏍堥渶瀹圭撼 LVGL 缁樺埗
