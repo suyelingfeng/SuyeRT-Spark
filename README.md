@@ -20,9 +20,14 @@ Storage、Network、System、LED Rings、GPIO Pins 八个实时功能页面。�
 - RT-Thread uptime、线程数、堆内存和 CPU 主频实时显示。
 - 19 颗 SK6805 按中心、内环、外环独立点亮，并提供低亮度限流策略。
 - GPIOA～GPIOI 的输入电平、输出锁存值和引脚模式实时诊断。
-- 串口命令 `sensor_status`、`environment_status`、`attitude_status`、
-  `attitude_zero`、`storage_status`、`network_status`、`network_reset`、
-  `led_ring_status`、`led_ring_next`、`gpio_status`。
+- 提供完整的串口诊断命令：
+
+```text
+sensor_status        environment_status   attitude_status
+attitude_zero        storage_status       network_status
+network_reset        led_ring_status      led_ring_next
+gpio_status
+```
 
 说明：当前精简 RT-Thread 工程未包含 DFS/FAL、WLAN 管理层和 lwIP，因此尚不提供
 文件挂载及 Wi-Fi 扫描/连接/IP。板级服务接口已经独立，后续加入官方组件时无需重写 UI。
@@ -32,7 +37,7 @@ Storage、Network、System、LED Rings、GPIO Pins 八个实时功能页面。�
 - 工程目录和各层职责
 - STM32CubeMX 修改时钟
 - 构建、ST-LINK 烧录与虚拟串口参数
-- `help`、`ps`、`free`、`ui_status`、`lcd_test` 等串口命令
+- help、ps、free、ui_status、lcd_test 等串口命令
 - 手写页面与图形化 UI 导出接入
 - 换屏、换板、换 RTOS 的移植边界
 - 黑屏、HardFault、按键、内存和性能调试
