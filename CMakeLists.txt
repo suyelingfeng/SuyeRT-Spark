@@ -104,6 +104,8 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/drivers/devices/rw007_device.c
     BSP/drivers/storage/board_storage.c
     BSP/drivers/wireless/rw007_hw.c
+    BSP/drivers/led/led_ring.c
+    BSP/drivers/diagnostics/gpio_monitor.c
     BSP/rt_hw_console.c
     BSP/rtthread_startup.c
     Core/Src/usart.c
@@ -138,6 +140,8 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/drivers/sensors
     BSP/drivers/storage
     BSP/drivers/wireless
+    BSP/drivers/led
+    BSP/drivers/diagnostics
     ${LVGL_ROOT}
     ${LVGL_ROOT}/src
     ${RTTHREAD_ROOT}/include

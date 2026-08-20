@@ -11,6 +11,15 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define BOARD_GPIO_PORT_COUNT 9U
+
+typedef struct
+{
+    uint16_t input;
+    uint16_t output;
+    uint32_t mode;
+} board_gpio_port_snapshot_t;
+
 /**
  * 板级状态快照：UI/MSH 的只读视图。
  * 所有物理量以定点整数传输，字段后缀标明倍率（如 _x10 表示真实值 = 字段/10）。
@@ -56,6 +65,10 @@ typedef struct
     bool rw007_ready;              /* RW007 就绪标志 */
     bool rw007_int_high;           /* RW007 中断脚电平 */
     uint32_t rw007_reset_count;    /* 复位启动次数，供诊断 */
+
+    uint8_t led_ring_mode;         /* 0=off, 1=center, 2=inner, 3=outer */
+    uint8_t led_ring_pixel_count;  /* 固定为 19，便于 UI 自检 */
+    board_gpio_port_snapshot_t gpio[BOARD_GPIO_PORT_COUNT]; /* GPIOA..GPIOI */
 } board_service_snapshot_t;
 
 /**
@@ -67,6 +80,7 @@ typedef struct
     bool refresh;       /* 立即刷新光感/存储等慢速设备，不等 500 ms 周期 */
     bool rw007_reset;   /* 释放复位并启动 RW007 WiFi 模组 */
     bool attitude_zero; /* 将当前方向设为正方向（零方向） */
+    bool led_ring_next; /* 切换到下一组 LED：关/中心/内环/外环 */
 } board_service_requests_t;
 
 /**

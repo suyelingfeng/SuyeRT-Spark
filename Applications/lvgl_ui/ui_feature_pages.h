@@ -1,8 +1,8 @@
 /**
  * @file ui_feature_pages.h
- * @brief Four RT-Spark feature pages.
+ * @brief RT-Spark feature page factory for the eight dashboard functions.
  *
- * 职责：功能页（传感器/温湿度/姿态/存储/网络/系统）的对外接口。
+ * 职责：功能页（传感器/温湿度/姿态/存储/网络/系统/LED/GPIO）的对外接口。
  * 上下游：由 ui_navigation 创建，数据来自 app_tasks 的板级服务快照。
  */
 #ifndef UI_FEATURE_PAGES_H

@@ -1,8 +1,8 @@
 /**
  * @file ui_main_menu.c
- * @brief 240 x 240 six-function dashboard designed for four-key navigation.
+ * @brief 240 x 240 eight-function dashboard designed for four-key navigation.
  *
- * 职责：主菜单页——2 列 x 3 行共 6 张功能卡片，配合四向键导航。
+ * 职责：主菜单页——2 列 x 4 行共 8 张功能卡片，配合四向键导航。
  * 数据流：卡片 CLICKED 事件 -> ui_navigation_request_open() 提交延迟请求
  * -> GUI 主循环统一执行页面切换（不在事件回调中删除当前 screen）。
  */
@@ -31,7 +31,12 @@ static const menu_item_t menu_items[] = {
     {"Storage", LV_SYMBOL_SD_CARD,  "SDIO / Flash / FAL / DFS",   0xFFB74D, UI_FEATURE_STORAGE},
     {"Network", LV_SYMBOL_WIFI,     "RW007 WLAN on SPI2",         0x66BB6A, UI_FEATURE_NETWORK},
     {"System",  LV_SYMBOL_SETTINGS, "RT-Thread runtime status",   0xAB7BEF, UI_FEATURE_SYSTEM},
+    {"LED Rings", LV_SYMBOL_POWER,  "RIGHT cycles one LED ring", 0x4DD0E1, UI_FEATURE_LED_RINGS},
+    {"GPIO Pins", LV_SYMBOL_LIST,    "RIGHT cycles GPIOA to I",   0xCE93D8, UI_FEATURE_GPIO_PINS},
 };
+
+_Static_assert((sizeof(menu_items) / sizeof(menu_items[0])) == UI_FEATURE_COUNT,
+               "menu_items must match ui_feature_t");
 
 /* 卡片事件处理：焦点切换更新提示条，确认键提交延迟换页请求。 */
 static void card_event(lv_event_t *event)
@@ -62,7 +67,7 @@ static lv_obj_t *create_card(lv_obj_t *parent, const menu_item_t *item)
     lv_obj_t *symbol = lv_label_create(card);
     lv_obj_t *title = lv_label_create(card);
 
-    lv_obj_set_size(card, 96, 46);
+    lv_obj_set_size(card, 96, 34);
     lv_obj_set_style_radius(card, 10, 0);
     lv_obj_set_style_bg_color(card, lv_color_hex(0x1B2942), 0);
     lv_obj_set_style_bg_color(card, lv_color_hex(0x243859), LV_STATE_FOCUSED);
@@ -83,7 +88,7 @@ static lv_obj_t *create_card(lv_obj_t *parent, const menu_item_t *item)
 
     lv_label_set_text(symbol, item->symbol);
     lv_obj_set_style_text_color(symbol, lv_color_hex(item->accent), 0);
-    lv_obj_set_style_text_font(symbol, &lv_font_montserrat_16, 0);
+    lv_obj_set_style_text_font(symbol, &lv_font_montserrat_14, 0);
     lv_obj_align(symbol, LV_ALIGN_LEFT_MID, 8, 0);
 
     lv_label_set_text(title, item->title);
@@ -94,10 +99,10 @@ static lv_obj_t *create_card(lv_obj_t *parent, const menu_item_t *item)
 }
 
 /**
- * @brief 创建主菜单 screen，并把 6 张卡片加入按键焦点组。
+ * @brief 创建主菜单 screen，并把 8 张卡片加入按键焦点组。
  * @param group 方向键导航使用的 LVGL 焦点组。
  * @retval lv_obj_t* 新建的 screen 对象指针（由调用方负责加载/删除）。
- * @note 适配 240x240 屏幕：卡片 96x46，2 列 3 行网格布局。
+ * @note 适配 240x240 屏幕：卡片 96x34，2 列 4 行网格布局。
  */
 lv_obj_t *ui_main_menu_create(lv_group_t *group)
 {
@@ -107,7 +112,7 @@ lv_obj_t *ui_main_menu_create(lv_group_t *group)
     lv_obj_t *badge = lv_label_create(header);
     lv_obj_t *grid = lv_obj_create(screen);
     static const int32_t columns[] = {96, 96, LV_GRID_TEMPLATE_LAST};
-    static const int32_t rows[] = {46, 46, 46, LV_GRID_TEMPLATE_LAST};
+    static const int32_t rows[] = {34, 34, 34, 34, LV_GRID_TEMPLATE_LAST};
 
     /*
      * The previous home screen may already have been auto-deleted.  Clear its
@@ -146,7 +151,7 @@ lv_obj_t *ui_main_menu_create(lv_group_t *group)
     lv_obj_set_layout(grid, LV_LAYOUT_GRID);
     lv_obj_set_grid_dsc_array(grid, columns, rows);
     lv_obj_set_style_pad_all(grid, 0, 0);
-    lv_obj_set_style_pad_row(grid, 6, 0);
+    lv_obj_set_style_pad_row(grid, 4, 0);
     lv_obj_set_style_pad_column(grid, 12, 0);
     lv_obj_set_style_bg_opa(grid, LV_OPA_TRANSP, 0);
     lv_obj_set_style_border_width(grid, 0, 0);

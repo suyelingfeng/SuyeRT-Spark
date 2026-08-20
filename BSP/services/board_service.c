@@ -15,6 +15,8 @@
 #include "icm20608.h"
 #include "board_storage.h"
 #include "rw007_hw.h"
+#include "led_ring.h"
+#include "gpio_monitor.h"
 #include "sensor_fusion.h"
 #include <rtthread.h>
 #include <string.h>
@@ -36,6 +38,18 @@ static rt_tick_t previous_imu_tick;
 static rt_tick_t previous_slow_tick;
 /* 鏍″噯瀹屾垚鍓嶆敹鍒扮殑褰掗浂璇锋眰涓嶈兘涓㈠け锛屽畬鎴愭牎鍑嗗悗鑷姩鎵ц銆?*/
 static bool attitude_zero_pending;
+
+static void update_gpio_snapshot(board_service_snapshot_t *snapshot)
+{
+    gpio_monitor_port_t ports[GPIO_MONITOR_PORT_COUNT];
+    gpio_monitor_sample(ports);
+    for (uint8_t i = 0U; i < BOARD_GPIO_PORT_COUNT; ++i)
+    {
+        snapshot->gpio[i].input = ports[i].input;
+        snapshot->gpio[i].output = ports[i].output;
+        snapshot->gpio[i].mode = ports[i].mode;
+    }
+}
 
 /* 娴偣鐗╃悊閲忔寜鍊嶇巼瀹氱偣鍖栦负 int16锛氶ケ鍜岄槻婧㈠嚭锛屄?.5 鍋忕Щ瀹炵幇鍥涜垗浜斿叆銆?*/
 /* Convert float physical quantity to fixed-point int16 with saturation and rounding.
@@ -214,6 +228,8 @@ void board_service_init(board_service_snapshot_t *snapshot)
     soft_i2c_bus_init(&sensor_bus);
     spi_driver_init();
     spi2_adapter_init();
+    led_ring_init();
+    gpio_monitor_init();
     scalar_kalman_init(&temperature_filter, KALMAN_TEMPERATURE_Q, KALMAN_TEMPERATURE_R);
     scalar_kalman_init(&humidity_filter, KALMAN_HUMIDITY_Q, KALMAN_HUMIDITY_R);
     attitude_filter_init(&orientation_filter);
@@ -222,6 +238,9 @@ void board_service_init(board_service_snapshot_t *snapshot)
     snapshot->ap3216c_ok = ap3216c_init_als_only(&ap3216c, &sensor_bus);
     snapshot->icm20608_ok = icm20608_init(&icm20608, &sensor_bus);
     update_slow_devices(snapshot);
+    snapshot->led_ring_mode = (uint8_t)led_ring_get_mode();
+    snapshot->led_ring_pixel_count = LED_RING_PIXEL_COUNT;
+    update_gpio_snapshot(snapshot);
 
     /* 棰戦棯瑙勯伩绛栫暐锛氬紑鏈轰笉鍚姩 RW007锛孨etwork 椤甸潰鍛戒护鎵嶄細閲婃斁澶嶄綅銆?*/
     snapshot->rw007_reset_released = false;
@@ -243,12 +262,14 @@ void board_service_process(board_service_snapshot_t *snapshot,
     bool refresh = false;
     bool rw007_reset = false;
     bool attitude_zero = false;
+    bool led_next = false;
     if (snapshot == RT_NULL) return;
     if (requests != RT_NULL)
     {
         refresh = requests->refresh;
         rw007_reset = requests->rw007_reset;
         attitude_zero = requests->attitude_zero;
+        led_next = requests->led_ring_next;
         /* 璇锋眰鏄?涓€娆℃€ф秷鎭?锛氳瀹屽嵆娓呴浂锛岄伩鍏嶅悓涓€璇锋眰琚悗缁懆鏈熼噸澶嶆墽琛屻€?*/
         memset(requests, 0, sizeof(*requests));
     }
@@ -272,6 +293,13 @@ void board_service_process(board_service_snapshot_t *snapshot,
         update_slow_devices(snapshot);
     }
     update_rw007(snapshot, rw007_reset);
+    if (led_next)
+    {
+        snapshot->led_ring_mode = (uint8_t)led_ring_next();
+        rt_kprintf("[LED] Active ring mode: %u (0=off 1=center 2=inner 3=outer)\n",
+                   snapshot->led_ring_mode);
+    }
+    update_gpio_snapshot(snapshot);
     ++snapshot->sequence;
 }
 

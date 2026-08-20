@@ -14,11 +14,13 @@
 static ui_feature_t active_feature;
 static lv_obj_t *status_label;
 static lv_timer_t *refresh_timer;
+static uint8_t selected_gpio_port;
 
 static const char *feature_title(ui_feature_t feature)
 {
     static const char *titles[] = {
-        "SENSORS", "TEMP / RH", "ATTITUDE", "STORAGE", "NETWORK", "SYSTEM"
+        "SENSORS", "TEMP / RH", "ATTITUDE", "STORAGE", "NETWORK", "SYSTEM",
+        "LED RINGS", "GPIO PINS"
     };
     return titles[(uint32_t)feature];
 }
@@ -27,9 +29,33 @@ static const char *feature_title(ui_feature_t feature)
 static uint32_t feature_accent(ui_feature_t feature)
 {
     static const uint32_t colors[] = {
-        0x26C6DA, 0x29B6F6, 0xEC407A, 0xFFB74D, 0x66BB6A, 0xAB7BEF
+        0x26C6DA, 0x29B6F6, 0xEC407A, 0xFFB74D, 0x66BB6A, 0xAB7BEF,
+        0x4DD0E1, 0xCE93D8
     };
     return colors[(uint32_t)feature];
+}
+
+/* Build a pin-15-to-pin-0 binary string without allocating heap memory. */
+static void format_gpio_bits(char text[17], uint16_t value)
+{
+    for (uint8_t column = 0U; column < 16U; ++column)
+    {
+        uint8_t pin = (uint8_t)(15U - column);
+        text[column] = ((value & ((uint16_t)1U << pin)) != 0U) ? '1' : '0';
+    }
+    text[16] = '\0';
+}
+
+/* MODER encoding: 00=input, 01=output, 10=alternate, 11=analog. */
+static void format_gpio_modes(char text[17], uint32_t moder)
+{
+    static const char mode_letter[] = {'I', 'O', 'F', 'A'};
+    for (uint8_t column = 0U; column < 16U; ++column)
+    {
+        uint8_t pin = (uint8_t)(15U - column);
+        text[column] = mode_letter[(moder >> (pin * 2U)) & 0x03U];
+    }
+    text[16] = '\0';
 }
 
 /* 读取板级服务原子快照，按当前功能页格式化到 status_label。 */
@@ -166,6 +192,43 @@ static void refresh_status(void)
                               (unsigned long)board.rw007_reset_count);
         break;
 
+    case UI_FEATURE_LED_RINGS:
+    {
+        static const char *mode_names[] = {"OFF", "CENTER (1)", "INNER (6)", "OUTER (12)"};
+        uint8_t mode = board.led_ring_mode;
+        if (mode >= 4U) mode = 0U;
+        lv_label_set_text_fmt(status_label,
+                              "SK6805     %u pixels\n"
+                              "Active     %s\n\n"
+                              "Center     pixel 0\n"
+                              "Inner      pixels 1..6\n"
+                              "Outer      pixels 7..18\n"
+                              "PA7 DATA   PF2 /OE",
+                              board.led_ring_pixel_count, mode_names[mode]);
+        break;
+    }
+
+    case UI_FEATURE_GPIO_PINS:
+    {
+        char input_bits[17];
+        char output_bits[17];
+        char mode_bits[17];
+        const board_gpio_port_snapshot_t *port = &board.gpio[selected_gpio_port];
+        format_gpio_bits(input_bits, port->input);
+        format_gpio_bits(output_bits, port->output);
+        format_gpio_modes(mode_bits, port->mode);
+        lv_label_set_text_fmt(status_label,
+                              "GPIO%c   pin 15 ........ pin 0\n"
+                              "IN      %s\n"
+                              "OUT     %s\n"
+                              "MODE    %s\n\n"
+                              "IDR %04X   ODR %04X\n"
+                              "I/O/F/A=input/out/AF/analog",
+                              (char)('A' + selected_gpio_port), input_bits,
+                              output_bits, mode_bits, port->input, port->output);
+        break;
+    }
+
     case UI_FEATURE_SYSTEM:
     default:
     {
@@ -220,6 +283,10 @@ static void page_button_event(lv_event_t *event)
             app_tasks_request_rw007_reset();
         else if (active_feature == UI_FEATURE_ATTITUDE)
             app_tasks_request_attitude_zero();
+        else if (active_feature == UI_FEATURE_LED_RINGS)
+            app_tasks_request_led_ring_next();
+        else if (active_feature == UI_FEATURE_GPIO_PINS)
+            selected_gpio_port = (uint8_t)((selected_gpio_port + 1U) % BOARD_GPIO_PORT_COUNT);
         else
             app_tasks_request_board_refresh();
         refresh_status();
@@ -251,6 +318,7 @@ lv_obj_t *ui_feature_page_create(ui_feature_t feature, lv_group_t *group)
     uint32_t accent = feature_accent(feature);
 
     active_feature = feature;
+    if (feature == UI_FEATURE_GPIO_PINS) selected_gpio_port = 0U;
     lv_obj_add_event_cb(screen, page_screen_event, LV_EVENT_DELETE, NULL);
     lv_obj_remove_flag(screen, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_style_bg_color(screen, lv_color_hex(0x0D1729), 0);
@@ -303,6 +371,10 @@ lv_obj_t *ui_feature_page_create(ui_feature_t feature, lv_group_t *group)
         lv_label_set_text(refresh_text, LV_SYMBOL_REFRESH " ZERO");
     else if (feature == UI_FEATURE_STORAGE)
         lv_label_set_text(refresh_text, LV_SYMBOL_REFRESH " RESCAN");
+    else if (feature == UI_FEATURE_LED_RINGS)
+        lv_label_set_text(refresh_text, LV_SYMBOL_RIGHT " NEXT RING");
+    else if (feature == UI_FEATURE_GPIO_PINS)
+        lv_label_set_text(refresh_text, LV_SYMBOL_RIGHT " NEXT PORT");
     else
         lv_label_set_text(refresh_text, LV_SYMBOL_REFRESH " REFRESH");
     lv_obj_set_style_text_font(refresh_text, &lv_font_montserrat_12, 0);

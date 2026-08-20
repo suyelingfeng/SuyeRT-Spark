@@ -65,7 +65,7 @@ static int cmd_ui_page(int argc, char **argv)
 {
     if (argc != 2)
     {
-        rt_kprintf("Usage: ui_page <home|sensors|environment|attitude|storage|network|system>\n");
+        rt_kprintf("Usage: ui_page <home|sensors|environment|attitude|storage|network|system|led|gpio>\n");
         return -1;
     }
 
@@ -76,16 +76,70 @@ static int cmd_ui_page(int argc, char **argv)
     else if (strcmp(argv[1], "storage") == 0) ui_navigation_request_open(UI_FEATURE_STORAGE);
     else if (strcmp(argv[1], "network") == 0) ui_navigation_request_open(UI_FEATURE_NETWORK);
     else if (strcmp(argv[1], "system") == 0) ui_navigation_request_open(UI_FEATURE_SYSTEM);
+    else if (strcmp(argv[1], "led") == 0) ui_navigation_request_open(UI_FEATURE_LED_RINGS);
+    else if (strcmp(argv[1], "gpio") == 0) ui_navigation_request_open(UI_FEATURE_GPIO_PINS);
     else
     {
-        rt_kprintf("Unknown page. Use home sensors environment attitude storage network or system.\n");
+        rt_kprintf("Unknown page. Use home sensors environment attitude storage network system led or gpio.\n");
         return -1;
     }
 
     rt_kprintf("UI page request submitted: %s\n", argv[1]);
     return 0;
 }
-MSH_CMD_EXPORT_ALIAS(cmd_ui_page, ui_page, switch UI page (home|sensors|environment|attitude|storage|network|system));
+MSH_CMD_EXPORT_ALIAS(cmd_ui_page, ui_page, switch UI page (home/sensors/environment/attitude/storage/network/system/led/gpio));
+
+static int cmd_led_ring_next(int argc, char **argv)
+{
+    RT_UNUSED(argc); RT_UNUSED(argv);
+    app_tasks_request_led_ring_next();
+    rt_kprintf("LED ring cycle requested. Run led_ring_status to inspect the result.\n");
+    return 0;
+}
+MSH_CMD_EXPORT_ALIAS(cmd_led_ring_next, led_ring_next, cycle off/center/inner/outer LED ring);
+
+static int cmd_led_ring_status(int argc, char **argv)
+{
+    static const char *names[] = {"off", "center", "inner", "outer"};
+    board_service_snapshot_t s;
+    uint8_t mode;
+    RT_UNUSED(argc); RT_UNUSED(argv);
+    app_tasks_get_board_snapshot(&s);
+    mode = s.led_ring_mode < 4U ? s.led_ring_mode : 0U;
+    rt_kprintf("SK6805: %u pixels, active=%s, DATA=PA7, /OE=PF2\n",
+               s.led_ring_pixel_count, names[mode]);
+    return 0;
+}
+MSH_CMD_EXPORT_ALIAS(cmd_led_ring_status, led_ring_status, show SK6805 LED ring state);
+
+static int cmd_gpio_status(int argc, char **argv)
+{
+    board_service_snapshot_t s;
+    uint8_t index = 0U;
+    if (argc == 2)
+    {
+        char letter = argv[1][0];
+        if ((letter >= 'a') && (letter <= 'i')) letter = (char)(letter - 'a' + 'A');
+        if ((letter < 'A') || (letter > 'I') || (argv[1][1] != '\0'))
+        {
+            rt_kprintf("Usage: gpio_status [A-I]\n");
+            return -1;
+        }
+        index = (uint8_t)(letter - 'A');
+    }
+    else if (argc != 1)
+    {
+        rt_kprintf("Usage: gpio_status [A-I]\n");
+        return -1;
+    }
+    app_tasks_get_board_snapshot(&s);
+    rt_kprintf("GPIO%c: IDR=0x%04X ODR=0x%04X MODER=0x%08lX\n",
+               (char)('A' + index), s.gpio[index].input, s.gpio[index].output,
+               (unsigned long)s.gpio[index].mode);
+    rt_kprintf("MODER per pin: 0=input 1=output 2=alternate 3=analog.\n");
+    return 0;
+}
+MSH_CMD_EXPORT_ALIAS(cmd_gpio_status, gpio_status, show GPIO port registers (gpio_status [A-I]));
 
 static int cmd_sensor_status(int argc, char **argv)
 {

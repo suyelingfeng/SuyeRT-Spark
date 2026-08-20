@@ -31,4 +31,7 @@ void app_tasks_request_rw007_reset(void);
 /** @brief 请求 board 线程将姿态解算零点校准到当前姿态。 */
 void app_tasks_request_attitude_zero(void);
 
+/** @brief Request the board thread to select the next exclusive LED ring. */
+void app_tasks_request_led_ring_next(void);
+
 #endif

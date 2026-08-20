@@ -91,6 +91,8 @@ void ui_navigation_open(ui_feature_t feature)
     case UI_FEATURE_STORAGE: current_page_name = "storage"; break;
     case UI_FEATURE_NETWORK: current_page_name = "network"; break;
     case UI_FEATURE_SYSTEM:  current_page_name = "system"; break;
+    case UI_FEATURE_LED_RINGS: current_page_name = "led-rings"; break;
+    case UI_FEATURE_GPIO_PINS: current_page_name = "gpio-pins"; break;
     default:                 current_page_name = "unknown"; break;
     }
     load_screen(screen, LV_SCREEN_LOAD_ANIM_MOVE_LEFT);

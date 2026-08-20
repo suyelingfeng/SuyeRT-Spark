@@ -2,7 +2,7 @@
  * @file ui_main_menu.h
  * @brief Main 2 x 2 application menu.
  *
- * 职责：主菜单页对外接口（2 列 x 3 行卡片式仪表盘）。
+ * 职责：主菜单页对外接口（2 列 x 4 行卡片式仪表盘）。
  * 上下游：由 ui_navigation 创建，卡片事件通过 request_open 延迟换页。
  */
 #ifndef UI_MAIN_MENU_H

@@ -147,6 +147,16 @@ extern "C" {
 #define IO_LCD_BACKLIGHT_PIN         GPIO_PIN_9
 
 /**
+ * @brief On-board 19-pixel SK6805 RGB LED matrix.
+ * PA7 carries the one-wire pixel data. PF2 drives the active-low output-enable
+ * pin of the 74LVC1G125 buffer shown in the RT-Spark schematic.
+ */
+#define IO_LED_MATRIX_DATA_PORT      GPIOA
+#define IO_LED_MATRIX_DATA_PIN       GPIO_PIN_7
+#define IO_LED_MATRIX_ENABLE_PORT    GPIOF
+#define IO_LED_MATRIX_ENABLE_PIN     GPIO_PIN_2
+
+/**
  * @brief Red LED GPIO (PF5, used as system heartbeat indicator).
  * GUI thread toggles once per 500 ms; should see ~1 Hz blink rate during operation.
  */

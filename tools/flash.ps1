@@ -5,7 +5,7 @@
 $ErrorActionPreference = "Stop"
 
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$firmware = Join-Path $projectRoot "build\codex-gcc\STM32F407_RTT.elf"
+$firmware = Join-Path $projectRoot "build\STM32F407_RTT.elf"
 $programmer = "D:\ST\STM32CubeCLT_1.18.0\STM32CubeProgrammer\bin\STM32_Programmer_CLI.exe"
 
 if (-not (Test-Path -LiteralPath $firmware)) {

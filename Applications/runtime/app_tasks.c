@@ -132,6 +132,8 @@ void app_tasks_request_board_refresh(void) { submit_board_request(&pending_reque
 void app_tasks_request_rw007_reset(void) { submit_board_request(&pending_requests.rw007_reset); }
 /** @brief 璇锋眰 board 绾跨▼鎶婂綋鍓嶅Э鎬侀敋瀹氫负闆剁偣锛堟竻闆剁浉瀵硅搴︼級銆?*/
 void app_tasks_request_attitude_zero(void) { submit_board_request(&pending_requests.attitude_zero); }
+/** @brief Cycle OFF/CENTER/INNER/OUTER in the board thread. */
+void app_tasks_request_led_ring_next(void) { submit_board_request(&pending_requests.led_ring_next); }
 
 /**
  * @brief 鍒涘缓骞跺惎鍔?board銆乴vgl 涓や釜搴旂敤绾跨▼锛屾渶鍚庢媺璧?FinSH銆? * @retval RT_EOK 琛ㄧず鍏ㄩ儴鍚姩鎴愬姛锛涘惁鍒欒繑鍥炵涓€涓け璐ユ楠ょ殑閿欒鐮併€? * @note  鐢?rt_application_init() 鍦ㄨ皟搴﹀櫒鍚姩鍓嶈皟鐢紝姝ゅ鐢ㄧ殑鏄潤鎬佺嚎绋嬨€? */
